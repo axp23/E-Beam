@@ -4,14 +4,14 @@ from scipy.integrate import solve_ivp
 from scipy.optimize import differential_evolution
 from matplotlib.colors import LinearSegmentedColormap
 
-# ========================
+# --------------------------
 # Working on 2/5/25
 # Fix Plots on NOx/SOx efficiency
-# ========================
+# --------------------------
 
-# ========================
-# CONSTANTS & PARAMETERS
-# ========================
+# --------------------------
+# PARAMETERS
+# --------------------------
 e_charge = 1.602e-19  # Coulombs
 R_air = 287.0         # J/kg·K
 k_SOx = 8.0           # kGy⁻¹
@@ -30,9 +30,9 @@ BASE_PARAMS = {
     'gas_velocity': 5.0
 }
 
-# ========================
-# CORE FUNCTIONS (VALIDATED)
-# ========================
+# --------------------------
+# CORE 
+# --------------------------
 def calculate_beam_power(voltage_MeV, current_mA):
     """Calculate beam power in kW with proper unit conversions"""
     current_A = current_mA / 1000  # mA to A
@@ -51,9 +51,9 @@ def removal_efficiency(k, dose, concentration):
     """Exponential removal model"""
     return 1 - np.exp(-k * dose * concentration)
 
-# ========================
+# --------------------------
 # 2D REACTOR MODEL 
-# ========================
+# --------------------------
 def run_2D_simulation(params):
     """2D simulation with automatic beam power calculation"""
     # Calculate derived parameters
@@ -83,9 +83,9 @@ def run_2D_simulation(params):
     
     return X, Y, flux, eta_SOx, eta_NOx
 
-# ========================
+# --------------------------
 # SENSITIVITY ANALYSIS 
-# ========================
+# --------------------------
 def sensitivity_analysis(param_ranges):
     """Robust parameter analysis with physical constraints"""
     results = {'params': [], 'SOx': [], 'NOx': []}
@@ -109,9 +109,9 @@ def sensitivity_analysis(param_ranges):
     
     return results
 
-# ========================
-# TRANSIENT DYNAMICS (VALIDATED)
-# ========================
+# --------------------------
+# DYNAMICS 
+# --------------------------
 def transient_model(t, y, params):
     """Dynamic system for time-varying engine loads"""
     SOx, NOx = y
@@ -128,9 +128,9 @@ def transient_model(t, y, params):
     
     return [dSOx_dt, dNOx_dt]
 
-# ========================
-# OPTIMIZATION (SAFE IMPLEMENTATION)
-# ========================
+# --------------------------
+# OPTIMIZATION
+# --------------------------
 def optimization_objective(x):
     """Multi-objective: Maximize efficiency while minimizing power/NH3"""
     voltage, current, NH3 = x
@@ -161,9 +161,9 @@ def optimization_objective(x):
     except:
         return np.inf
 
-# ========================
-# VISUALIZATION (ERROR-CHECKED)
-# ========================
+# --------------------------
+# VISUALIZATION 
+# --------------------------
 def plot_results(X, Y, flux, eta_SOx, eta_NOx):
     """2D visualization of reactor performance"""
     plt.figure(figsize=(15, 5))
@@ -205,9 +205,9 @@ def plot_sensitivity(results):
     
     plt.tight_layout()
 
-# ========================
-# MAIN EXECUTION (SAFE)
-# ========================
+# --------------------------
+# MAIN EXECUTION 
+# --------------------------
 if __name__ == "__main__":
     # 1. Base 2D Simulation
     print("Running base 2D simulation...")
